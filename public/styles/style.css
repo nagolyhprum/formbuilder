@@ -1,0 +1,75 @@
+[ng-controller="formbuilder"], [ng-controller="toolbar"] {
+	height : 480px;
+	position : relative;
+	overflow : auto;
+	border : 1px solid black;
+	margin-top : 50px;
+}
+
+[ng-controller="flexible"] *, [ng-controller="flexible"] textarea, [ng-controller="flexible"] input {
+	width : 100%;
+	height : 100%;
+}
+
+.highlighted {
+	position : absolute;
+	border : 1px solid black;
+	cursor : move;
+}
+
+.highlighted [class] {
+	position : absolute;
+	width : 10px;
+	height : 10px;
+	border : 1px solid black;
+	background : white;
+}
+
+.highlighted .top, .highlighted .bottom {
+	left : 50%;
+	margin-left : -5px;
+}
+
+.highlighted .left, .highlighted .right {
+	top : 50%;
+	margin-top : -5px;
+}
+
+.highlighted .left {
+	margin-left : -5px;
+}
+
+.highlighted .top {
+	margin-top : -5px;
+}
+
+.highlighted .right {
+	left : 100%;
+	margin-left : -5px;
+}
+
+.highlighted .bottom {
+	top : 100%;
+	margin-top : -5px;
+}
+
+.highlighted .top, .highlighted .bottom {
+	cursor : n-resize;
+}
+
+.highlighted .left, .highlighted .right {
+	cursor : e-resize;
+}
+
+textarea {
+	resize : none;
+}
+
+[ng-controller="label"] {
+	border : 1px dotted rgba(0, 0, 0, 0.5)
+}
+
+#selection {
+	border : 1px dashed black;
+	position : absolute;
+}
