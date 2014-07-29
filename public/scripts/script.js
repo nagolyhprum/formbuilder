@@ -47,8 +47,8 @@ formbuilder.directive("textbox", function() {
 
 formbuilder.directive("ngDrag", function() {
 	return function($scope, $element, $attributes) {
-		var down = false;	
-		
+		var down = false, previous = {};	
+	
 		function preventDefault(event) {
 			event.stopPropagation();
 			event.preventDefault();
@@ -58,25 +58,30 @@ formbuilder.directive("ngDrag", function() {
 		
 		$element.on("mousedown", function(event) {
 			down = true;
-			return preventDefault(event);
-		});
-		var previous = {};
-		angular.element(document).on("mouseup", function(event) {
-			down = false;
-			return preventDefault(event);
-		}).on("mousemove", function(event) {
-			if(previous && down) {
-				$scope.$offset = {
-					x : event.pageX - previous.x,
-					y : event.pageY - previous.y
-				};
-				$scope.$eval($attributes.ngDrag);
-			}
 			previous = {
 				x : event.pageX,
 				y : event.pageY
 			};
 			return preventDefault(event);
+		});
+		angular.element(document).on("mouseup", function(event) {
+			if(down) {
+				down = false;
+				return preventDefault(event);
+			}
+		}).on("mousemove", function(event) {
+			if(down) {
+				$scope.$offset = {
+					x : event.pageX - previous.x,
+					y : event.pageY - previous.y
+				};
+				$scope.$eval($attributes.ngDrag);
+				previous = {
+					x : event.pageX,
+					y : event.pageY
+				};
+				return preventDefault(event);
+			}
 		});
 	};
 });

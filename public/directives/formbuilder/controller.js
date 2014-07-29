@@ -26,11 +26,20 @@ formbuilder.controller("formbuilder", ["$scope", function($scope) {
 		$scope.$apply();
 	};
 	$scope.startSelect = function($event) {
+		var element = angular.element(document.querySelector("[ng-controller='formbuilder']")),
+			target = angular.element($event.target),
+			x = 0,
+			y = 0;
+		while(target[0] != element[0]) {
+			x += target[0].offsetLeft;
+			y += target[0].offsetTop;
+			target = target.parent();
+		}
 		$scope.selection = {
-			x1 : $event.offsetX,
-			x2 : $event.offsetX,
-			y1 : $event.offsetY,
-			y2 : $event.offsetY
+			x1 : $event.offsetX + x,
+			x2 : $event.offsetX + x,
+			y1 : $event.offsetY + y,
+			y2 : $event.offsetY + y
 		};
 	};
 	$scope.select = function($offset) {
