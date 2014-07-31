@@ -5,28 +5,34 @@
 			<li class="text-center" ng-click="add(component)" ng-repeat="component in components"><a href="#">{{component}}</a></li>
 		</ul>
 	</div>
-	<div id="properties" ng-if="highlighted" class="col-xs-6">
+	<div id="properties" ng-if="highlighted.length" class="col-xs-6">
 		<h3>Properties</h3>
-		<p>{{highlighted.component}} - {{highlighted.properties.Name.value}}</p>
+		<div ng-if="highlighted.length > 1">
+			Multiselection
+		</div>
+		<div ng-if="highlighted.length == 1">
+			{{highlighted[0].component}} - {{highlighted[0].properties.Name.value}}
+		</div>
 		<div class="tbl">
-			<div class="row" class="form-control" ng-repeat="(name, property) in highlighted.properties">
+			<div class="row" class="form-control" ng-repeat="(name, property) in properties">
 				<div class="col-xs-6 text-right">
 					<label for="property_{{name}}">{{name}}</label>
 				</div>
 				<div class="col-xs-6">
 					<div ng-if="property.list">
-						<select ng-model="property.value" id="property_{{name}}" class="form-control">
-							<option ng-value="item" ng-repeat="item in lists[property.list]">{{item}}</option>
+						<select ng-model="property.value" id="property_{{name}}" class="form-control" ng-options="item for item in lists[property.list]" ng-change="update(name, 'String')">
 						</select>
 					</div>
-					<div ng-if="!property.list && is(property.value, 'boolean')">
-						<input type="checkbox" id="property_{{name}}" class="form-control" type="text" ng-model="property.value"/>
-					</div>
-					<div ng-if="!property.list && is(property.value, 'string')">
-						<input id="property_{{name}}" class="form-control" type="text" ng-model="property.value"/>
-					</div>
-					<div ng-if="!property.list && is(property.value, 'number')">
-						<input id="property_{{name}}" class="form-control" type="text" ng-model="property.value"/>
+					<div ng-if="!property.list">
+						<div ng-if="is(property.value, 'boolean')">
+							<input ng-model="property.value" type="checkbox" id="property_{{name}}" class="form-control" ng-change="update(name, 'Boolean')"/>
+						</div>
+						<div ng-if="is(property.value, 'string')">
+							<input ng-model="property.value" id="property_{{name}}" class="form-control" ng-change="update(name, 'String')"/>
+						</div>
+						<div ng-if="is(property.value, 'number')">
+							<input ng-model="property.value" id="property_{{name}}" class="form-control" ng-change="update(name, 'Number')"/>
+						</div>
 					</div>
 				</div>
 			</div>

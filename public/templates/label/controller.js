@@ -3,5 +3,6 @@ formbuilder.controller("label", ["$scope", function($scope) {
 		component.properties.Text = {
 			value : ""
 		};
+		$scope.common();
 	};
 }]);

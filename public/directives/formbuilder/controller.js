@@ -59,11 +59,12 @@ formbuilder.controller("formbuilder", ["$scope", function($scope) {
 				var properties = $scope.components[i].properties,
 					width = Math.min(selection.x + selection.width, properties.X.value + properties.Width.value) - Math.max(properties.X.value, selection.x),
 					height = Math.min(selection.y + selection.height, properties.Y.value + properties.Height.value) - Math.max(properties.Y.value, selection.y);
-				if(width >= 0 &&  height >= 0) {
+				if(width >= 0 && height >= 0) {
 					$scope.highlighted.push($scope.components[i]);
 				}
 			}
 		}
 		$scope.selection = null;
+		$scope.common();
 	};
 }]);

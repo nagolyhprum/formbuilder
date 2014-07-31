@@ -9,5 +9,6 @@ formbuilder.controller("textbox", ["$scope", function($scope) {
 		component.properties.Placeholder = {
 			value : ""
 		};
+		$scope.common();
 	};
 }]);

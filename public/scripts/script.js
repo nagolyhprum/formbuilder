@@ -20,28 +20,28 @@ var formbuilder = angular.module("formbuilder", []).run(["$rootScope", function(
 formbuilder.directive("formbuilder", function() {
 	return {
 		templateUrl : "directives/formbuilder/view.html",
-		restrict : "E"
+		restrict : "A"
 	};
 });
 
 formbuilder.directive("toolbar", function() {
 	return {
 		templateUrl : "directives/toolbar/view.html",
-		restrict : "E"
+		restrict : "A"
 	};
 });
 
 formbuilder.directive("editor", function() {
 	return {
 		templateUrl : "directives/editor/view.html",
-		restrict : "E"
+		restrict : "A"
 	};
 });
 
 formbuilder.directive("textbox", function() {
 	return {
 		templateUrl : "directives/textbox/view.html",
-		restrict : "E"
+		restrict : "A"
 	};
 });
 
@@ -100,6 +100,7 @@ formbuilder.controller("flexible", ["$scope", function($scope) {
 		component.properties.Height = {
 			value : 100
 		};
+		$scope.common();
 	};
 }]);
 
@@ -124,6 +125,7 @@ formbuilder.controller("styleable", ["$scope", function($scope) {
 			value : "Solid",
 			list : "styles"
 		};
+		$scope.common();
 	};
 }]);
 
