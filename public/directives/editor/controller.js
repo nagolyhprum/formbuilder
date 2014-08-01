@@ -56,4 +56,22 @@ formbuilder.controller("editor", ["$scope", function($scope) {
 		}
 		$scope.properties = properties;
 	};
+	var cache = "";
+	$scope.startName = function() {
+		cache = $scope.highlighted[0].properties.Name.value;
+	};
+	$scope.stopName = function() {
+		var name = $scope.properties.Name.value;
+		if(name != cache) {
+			var components = $scope.components;
+			for(var i = 0; i < components.length; i++) {
+				if(components[i].properties.Name.value == name && components[i] != $scope.highlighted[0]) {
+					alert("That name is already in use.");
+					$scope.properties.Name.value = cache;
+					return;
+				}
+			}
+			$scope.highlighted[0].properties.Name.value = name;
+		}
+	};
 }]);

@@ -19,19 +19,24 @@
 					<label for="property_{{name}}">{{name}}</label>
 				</div>
 				<div class="col-xs-6">
-					<div ng-if="property.list">
-						<select ng-model="property.value" id="property_{{name}}" class="form-control" ng-options="item for item in lists[property.list]" ng-change="update(name, 'String')">
-						</select>
+					<div ng-if="name=='Name'">
+						<input id="property_{{name}}" ng-model="property.value" class="form-control" ng-focus="startName()" ng-blur="stopName()"/>						
 					</div>
-					<div ng-if="!property.list">
-						<div ng-if="is(property.value, 'boolean')">
-							<input ng-model="property.value" type="checkbox" id="property_{{name}}" class="form-control" ng-change="update(name, 'Boolean')"/>
+					<div ng-if="name!='Name'">
+						<div ng-if="property.list">
+							<select ng-model="property.value" id="property_{{name}}" class="form-control" ng-options="item for item in lists[property.list]" ng-change="update(name, 'String')">
+							</select>
 						</div>
-						<div ng-if="is(property.value, 'string')">
-							<input ng-model="property.value" id="property_{{name}}" class="form-control" ng-change="update(name, 'String')"/>
-						</div>
-						<div ng-if="is(property.value, 'number')">
-							<input ng-model="property.value" id="property_{{name}}" class="form-control" ng-change="update(name, 'Number')"/>
+						<div ng-if="!property.list">
+							<div ng-if="is(property.value, 'boolean')">
+								<input ng-model="property.value" type="checkbox" id="property_{{name}}" class="form-control" ng-change="update(name, 'Boolean')"/>
+							</div>
+							<div ng-if="is(property.value, 'string')">
+								<input ng-model="property.value" id="property_{{name}}" class="form-control" ng-change="update(name, 'String')"/>
+							</div>
+							<div ng-if="is(property.value, 'number')">
+								<input ng-model="property.value" id="property_{{name}}" class="form-control" ng-change="update(name, 'Number')"/>
+							</div>
 						</div>
 					</div>
 				</div>
