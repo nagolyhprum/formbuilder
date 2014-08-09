@@ -55,7 +55,7 @@ app.post("/user/login", function(req, res) {
 			var expire = new Date(new Date().getTime() + (1000 * 60 * 60 * 1));
 			collection("users", function(error, users) {
 				body = JSON.parse(body);
-				users.findAndModify({$set:{facebook:body.id}}, [], {accessToken:accessToken,expire:expire}, {}, function(error, user) {
+				users.findAndModify({facebook:body.id}, [], {$set:{accessToken:accessToken,expire:expire}}, {}, function(error, user) {
 					if(!user) {
 						users.insert({
 							accessToken : accessToken,

@@ -222,7 +222,6 @@ formbuilder.controller("file", ["$scope", "$http", "$cookies", function($scope, 
 		}
 		$scope.projects[index].active = "active";
 		$scope.components = $scope.projects[index].versions[$scope.projects[index].versions.length - 1].components;
-		$scope.$apply();
 	};
 	$http.post("/project/version", {
 		accessToken : $cookies.accessToken
