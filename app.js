@@ -89,13 +89,53 @@ app.post("/project/version", function(req, res) {
 					res.send({error:error});
 				} else {
 					if(data && projectID) {
-						//save(data, accessToken)
+						//save(data,pid)
+						projects.findAndModify({_id:projectID}, [], {versions:{$push: data}}, {}, function(error, project) {
+							res.send({data : project.versions.length});
+						});
 					} else if(projectID) {
 						//branch(pid, accessToken)
+						projects.find({_id:projectID}).toArray(function(error,p){
+							if(error){
+								res.send({error:error})
+							}
+							else{
+								projects.insert({
+									versions : p[0].versions[p[0].versions.length - 1],
+									inserted : new Date(),
+									permission: [userid]
+								}, function(error, projects){
+									if(error) {
+										res.send({error : error});
+									} else {
+										res.send({data : projects[0]});
+									}
+								});
+							}
+						})
 					} else if(data) {
 						//create(data, project, accessToken)
+						projects.insert({
+							versions : [data],
+							inserted : new Date(),
+							permission: [userid]
+						}, function(error, projects){
+							if(error) {
+								res.send({error : error});
+							} else {
+								res.send({data : projects[0]});
+							}
+						});
 					} else {		
 						//load(accessToken)
+						projects.find({_id:projectID}).toArray(function(errror,projects){
+							if(error){
+								res.send({error:error});
+							}
+							else{
+								res.send({data:projects});
+							}
+						})
 					}
 				}
 			});
