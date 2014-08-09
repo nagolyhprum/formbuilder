@@ -88,7 +88,22 @@ app.post("/user/login", function(req, res) {
 });
 
 app.post("/user/finder", function(req, res) {
-	
+	authenticate(accessToken, function(error, user, users) {
+		if(!error){
+			collection("users", function(error, users) {
+				users.find( {name : req.body.sub}, {name:1, _id:1}).toArray(function(errror, u){
+					if(error){
+						res.send({error:error});
+					} else{
+						res.send({data: u});
+					}
+				})
+			});
+		}
+		else{
+			res.send({error:error});
+		}
+	});
 });
 
 
@@ -206,6 +221,23 @@ app.post("/project/permission", function(req, res) {
 									res.send({error:error});
 								}
 						})
+					}
+					else if(projectID){
+						projects.find({_id: projectID, user : userid}, {permissions:1, _id: 0}).toArray(function(errror, p){
+							if(error){
+								res.send({error:error});
+							}
+							else{
+								users.find({_id:{$in : permissions}}, {name: 1, _id:1}).toArray(function(error,u){
+									if(error){
+										res.send({error:error});
+									}
+									else{
+										res.send({data : u});
+									}
+								});
+							}
+						});	
 					}
 					else {
 						res.send({error:"Invalid action."});
