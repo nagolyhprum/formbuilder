@@ -60,7 +60,7 @@ app.post("/user/login", function(req, res) {
 						users.insert({
 							accessToken : accessToken,
 							expire : expire,
-							fullname : body.full_name,
+							name : body.name,
 							facebook : body.id,
 							inserted : new Date()
 						}, function(error){
@@ -69,16 +69,16 @@ app.post("/user/login", function(req, res) {
 							} else {
 								res.send({data : {
 									accessToken : accessToken,
-									fullname : body.fullname,
-									id : body.id
+									name : body.name,
+									facebook : body.id
 								}});
 							}
 						});
 					} else {
 						res.send({data : {
 							accessToken : accessToken,
-							fullname : user.fullname,
-							id : user.id
+							name : user.name,
+							facebook : user.facebook
 						}});
 					}
 				});
