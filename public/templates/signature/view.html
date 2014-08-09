@@ -8,7 +8,7 @@
 				</div>
 				<div class="modal-body">
 					<p class="text-center">
-						<canvas width="400" height="100" style="border:1px solid black;border-radius:4px;"></canvas>
+						<canvas id="{{component.properties.Name.value}}canvas" width="400" height="100" style="border:1px solid black;border-radius:4px;" ng-mousedown="sign($event)" ng-mouseup="stop($event)" ng-mousemove="sign($event)"></canvas>
 					</p>
 					<p>
 						<input class="form-control" ng-model="component.fullname" placeholder="Full Name"/>
