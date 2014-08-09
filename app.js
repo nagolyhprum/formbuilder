@@ -69,19 +69,29 @@ app.post("/user/login", function(req, res) {
 							} else {
 								res.send({data : {
 									accessToken : accessToken,
-									fullname : fullname,
-									body.id : body.id
+									fullname : body.fullname,
+									id : body.id
 								});
 							}
 						});
 					} else {
-						res.send({data : accessToken});
+						res.send({data : {
+							accessToken : accessToken,
+							fullname : user.fullname,
+							id : user.id
+						});
 					}
 				});
 			});
 		}
 	});
 });
+
+app.post("/user/finder", function(req, res) {
+
+});
+
+
 
 app.post("/project/version", function(req, res) {
 	var accessToken = req.body.accessToken,
