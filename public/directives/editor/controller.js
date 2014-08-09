@@ -1,7 +1,7 @@
 formbuilder.controller("editor", ["$scope", function($scope) {	
 	$scope.highlighted = [];
 	$scope.design = true;
-	$scope.components = [];
+	//$scope.components = [];
 	
 	$scope.add = function(component) {
 		var component = {

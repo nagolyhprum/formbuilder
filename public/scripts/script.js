@@ -215,6 +215,15 @@ formbuilder.factory('socket', function($rootScope) {
 
 formbuilder.controller("file", ["$scope", "$http", "$cookies", function($scope, $http, $cookies) {
 	$scope.form = {};
+	$scope.components = [];
+	$scope.activate = function(index) {
+		for(var i = 0; i < $scope.projects.length; i++) {
+			$scope.projects[i].active = "";
+		}
+		$scope.projects[index].active = "active";
+		$scope.components = $scope.projects[index].versions[$scope.projects[index].versions.length - 1].components;
+		$scope.$apply();
+	};
 	$http.post("/project/version", {
 		accessToken : $cookies.accessToken
 	}).success(function(projects) {
@@ -225,12 +234,26 @@ formbuilder.controller("file", ["$scope", "$http", "$cookies", function($scope, 
 	$scope.save = function() {
 		$http.post("/project/version", {
 			accessToken : $cookies.accessToken,
-			data : {},
+			data : {components : []},
 			name : $scope.form.name,
 			description : $scope.form.description
 		}).success(function(project) {
 			if(!project.error) {
 				$scope.projects.push(project.data);
+				$scope.activate($scope.projects.length - 1);
+			}
+		});
+	};
+}]);
+
+formbuilder.controller("permissions", ["$scope", "$http", "$cookies", function($scope, $http, $cookies) {
+	$scope.users = [];
+	$scope.update = function() {
+		$http.post("/user/finder", {
+			sub : $scope.username
+		}).success(function(users) {
+			if(!user.error) {
+				$scope.users  = users.data;
 			}
 		});
 	};

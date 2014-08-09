@@ -17,9 +17,10 @@
 					<li class="dropdown" ng-if="projects.length">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
 						<ul class="dropdown-menu" >
-							<li ng-repeat="project in projects"><a href="#" title="{{project.description}}">{{project.name}}</a></li>
+							<li ng-repeat="project in projects" ng-class="project.active"><a ng-click="activate($index)" href="#" title="{{project.description}}">{{project.name}}</a></li>
 						</ul>
 					</li>
+					<li><a href="#" data-toggle="modal" data-target="#project_permissions">Permissions</a></li>
 				</ul>
 				<div ng-controller="login">
 					<ul ng-if="!accessToken" class="nav navbar-nav navbar-right">
@@ -33,6 +34,28 @@
 					<ul ng-if="accessToken" class="nav navbar-nav navbar-right">
 						<li><a ng-click="logout()" href="#">{{user.name}} <img width="14" height="14" ng-src="http://graph.facebook.com/v2.1/{{user.facebook}}/picture"/> Logout</a></li>
 					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	<div class="modal fade" id="project_permissions" ng-controller="permissions">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Project Permissions</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input ng-model="username" class="form-control"  placeholder="Username" ng-change="update()"/>
+					</div>
+					<div class="list-group">
+						<a href="#" ng-click="addPermission(user)" class="list-group-item" ng-repeat="user in users">{{user.name}}</a>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -58,11 +81,8 @@
 					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="save()">Save changes</button>
 				</div>
 			</div>
-			<!-- /.modal-content -->
 		</div>
-		<!-- /.modal-dialog -->
 	</div>
-	<!-- /.modal -->	
 		
 	<div ng-controller="editor" class="container-fluid">
 		<div class="col-xs-6" ng-click="unhighlight()">
