@@ -164,7 +164,9 @@ Array.prototype.contains = function(needle) {
 				FB.api("/me", function(me) {
 					var accessToken = FB.getAuthResponse().accessToken;
 					$http.post("/user/login",{accessToken:accessToken}).success(function(accessToken) {
-						$scope.accessToken = accessToken;
+						if(!accessToken.error) {
+							$scope.accessToken = accessToken.data;
+						}
 					});
 				});
 			}
