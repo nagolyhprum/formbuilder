@@ -71,7 +71,7 @@ app.post("/user/login", function(req, res) {
 									accessToken : accessToken,
 									fullname : body.fullname,
 									id : body.id
-								});
+								}});
 							}
 						});
 					} else {
@@ -79,7 +79,7 @@ app.post("/user/login", function(req, res) {
 							accessToken : accessToken,
 							fullname : user.fullname,
 							id : user.id
-						});
+						}});
 					}
 				});
 			});
@@ -88,7 +88,7 @@ app.post("/user/login", function(req, res) {
 });
 
 app.post("/user/finder", function(req, res) {
-
+	
 });
 
 
