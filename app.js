@@ -91,7 +91,7 @@ app.post("/user/finder", function(req, res) {
 	authenticate(accessToken, function(error, user, users) {
 		if(!error){
 			collection("users", function(error, users) {
-				users.find( {fullname : req.body.sub}).toArray(function(errror, u){
+				users.find( {name : req.body.sub}, {name:1, _id:1}).toArray(function(errror, u){
 					if(error){
 						res.send({error:error});
 					} else{
@@ -228,7 +228,7 @@ app.post("/project/permission", function(req, res) {
 								res.send({error:error});
 							}
 							else{
-								users.find({_id:{$in : permissions}}, {fullname: 1, _id:1}).toArray(function(error,u){
+								users.find({_id:{$in : permissions}}, {name: 1, _id:1}).toArray(function(error,u){
 									if(error){
 										res.send({error:error});
 									}
