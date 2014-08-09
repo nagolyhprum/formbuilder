@@ -211,7 +211,7 @@ formbuilder.factory('socket', function($rootScope) {
 });
 
 formbuilder.controller("file", ["$scope", "$http", "$cookies", function($scope, $http, $cookies) {
-	$scope.create = function() {
+	$scope.save = function() {
 		$http.post("/project/version", {
 			accessToken : $cookies.accessToken,
 			data : {
