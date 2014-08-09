@@ -163,9 +163,34 @@ app.post("/project/permission", function(req, res) {
 				} else {
 					if(projectID && user && path){
 						//DO SOCKET HERE
-						projects.findAndModify({_id:projectID, permission:{$contains: userid}}, [], {permissions{$push: userid, level }}, {}, function(error, project) {
-							res.send({data : level});
-						});
+							projects.find({permission:userid, _id: projectID}).toArray(function(errror, p){
+								if(p){
+									var d = 0
+									for(var i = 0; i<p.permissions.length; i++){
+										if(p.permissions[i].equals(user)){
+											d = 1
+											p.pemissions.splice(i,1);
+											break;
+										}
+									}
+									
+									if(!d){
+										p.permissions.push{user};
+									}
+									
+									projects.save(p function(error, p){
+										if(error){
+											res.send({error:error});
+										}
+										else{
+											res.send({data: d}); //LOGAN SUCKS
+										}
+									});
+									
+								} else{
+									res.send({error:error});
+								}
+						})
 					}
 					else {
 						res.send({error:"Invalid action."});
