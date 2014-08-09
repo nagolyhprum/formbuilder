@@ -90,44 +90,52 @@ app.post("/project/version", function(req, res) {
 				} else {
 					if(data && projectID) {
 						//save(data,pid)
-						projects.findAndModify(projectID, [], {data:data}, {}, function(error, user) {
-							res.send({data : projectID});
+						projects.findAndModify({_id:projectID}, [], {versions:{$push: data}}, {}, function(error, project) {
+							res.send({data : project.versions.length});
 						});
 					} else if(projectID) {
 						//branch(pid, accessToken)
-						projects.insert({
-							projectID: new Integer(),
-							parentID : projectID,
-							inserted : new Date()
-						}, function(error){
-							if(error) {
-								res.send({error : error});
-							} else {
-								res.send({data : projectID});
+						projects.find({_id:projectID}).toArray(function(error,p){
+							if(error){
+								res.send({error:error})
 							}
-						});
+							else{
+								projects.insert({
+									versions : p[0].versions[p[0].versions.length - 1],
+									inserted : new Date(),
+									permission: [userid]
+								}, function(error, projects){
+									if(error) {
+										res.send({error : error});
+									} else {
+										res.send({data : projects[0]});
+									}
+								});
+							}
+						})
 					} else if(data) {
 						//create(data, project, accessToken)
 						projects.insert({
-							projectID: new Integer(),
-							data : data,
-							inserted : new Date()
-						}, function(error){
+							versions : [data],
+							inserted : new Date(),
+							permission: [userid]
+						}, function(error, projects){
 							if(error) {
 								res.send({error : error});
 							} else {
-								res.send({data : projectID});
+								res.send({data : projects[0]});
 							}
 						});
 					} else {		
 						//load(accessToken)
-						users.findAndModify(projectID, [], {}, {}, function(error, user) {
-							if(error) {
-								res.send({error : error});
-							} else {
-								res.send({data : data});
+						projects.find({_id:projectID}).toArray(function(errror,projects){
+							if(error){
+								res.send({error:error});
 							}
-						});
+							else{
+								res.send({data:projects});
+							}
+						})
 					}
 				}
 			});

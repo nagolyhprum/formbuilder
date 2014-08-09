@@ -1,4 +1,4 @@
-var formbuilder = angular.module("formbuilder", []).run(["$rootScope", function($rootScope) {
+var formbuilder = angular.module("formbuilder", ["ngCookies"]).run(["$rootScope", function($rootScope) {
 	$rootScope.preventDefault = function($event) {
 		return preventDefault($event);
 	};
@@ -155,7 +155,7 @@ Array.prototype.contains = function(needle) {
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, "script", "facebook-jssdk"));	
 	
-	formbuilder.controller("login", ["$scope", "$http", "$cookie", function($scope, $http, $cookies) {
+	formbuilder.controller("login", ["$scope", "$http", "$cookies", function($scope, $http, $cookies) {
 		$scope.accessToken = false;
 		$scope.logout = function() {
 			$scope.accessToken = false;
