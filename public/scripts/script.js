@@ -156,6 +156,7 @@ Array.prototype.contains = function(needle) {
 	}(document, "script", "facebook-jssdk"));	
 	
 	formbuilder.controller("login", ["$scope", "$http", "$cookies", function($scope, $http, $cookies) {
+		$scope.user = {};
 		$scope.accessToken = false;
 		$scope.logout = function() {
 			$scope.accessToken = false;
@@ -166,9 +167,11 @@ Array.prototype.contains = function(needle) {
 			if(response.status == "connected") {
 				FB.api("/me", function(me) {
 					var accessToken = FB.getAuthResponse().accessToken;
-					$http.post("/user/login",{accessToken:accessToken}).success(function(accessToken) {
+					$http.post("/user/login",{accessToken:accessToken}).success(function(login) {
 						if(!accessToken.error) {
-							$cookies.accessToken = $scope.accessToken = accessToken.data;
+							$cookies.accessToken = $scope.accessToken = login.data.accessToken;
+							$scope.user.facebook = login.data.facebook;
+							$scope.user.name = login.data.name;
 						}
 					});
 				});

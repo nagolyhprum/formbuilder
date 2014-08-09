@@ -31,7 +31,7 @@
 						</li>
 					</ul>
 					<ul ng-if="accessToken" class="nav navbar-nav navbar-right">
-						<li><a ng-click="logout()" href="#">Logout</a></li>
+						<li><a ng-click="logout()" href="#">{{user.name}} <img width="14" height="14" ng-src="http://graph.facebook.com/v2.1/{{user.facebook}}/picture"/> Logout</a></li>
 					</ul>
 				</div>
 			</div>
