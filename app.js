@@ -190,10 +190,10 @@ app.post("/project/permission", function(req, res) {
 									}
 									
 									if(!d){
-										p.permissions.push{user};
+										p.permissions.push(user);
 									}
 									
-									projects.save(p function(error, p){
+									projects.save(p, function(error, p){
 										if(error){
 											res.send({error:error});
 										}
