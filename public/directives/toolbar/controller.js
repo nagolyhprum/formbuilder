@@ -1,5 +1,5 @@
 formbuilder.controller("toolbar", ["$scope", function($scope) {
-	$scope.components = ["Label", "Textbox"];
+	$scope.components = ["Button", "Image", "Label", "Signature", "Textbox"];
 	$scope.is = function(value, type) {
 		return typeof(value) == type;
 	};

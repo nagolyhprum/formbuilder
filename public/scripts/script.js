@@ -132,3 +132,75 @@ formbuilder.controller("styleable", ["$scope", function($scope) {
 Array.prototype.contains = function(needle) {
 	return this.indexOf(needle) + 1;
 };
+
+(function() {
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId: "757435677628427",
+			xfbml: true,
+			version: "v2.0"
+		});
+	};
+
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {
+			return;
+		}
+		js = d.createElement(s);
+		js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, "script", "facebook-jssdk"));	
+	
+	formbuilder.controller("login", ["$scope", "$http", function($scope, $http) {
+		$scope.accessToken = false;
+		$scope.logout = function() {
+			$scope.accessToken = false;
+		};
+		function facebook(response) {
+			console.log(response.status);
+			if(response.status == "connected") {
+				FB.api("/me", function(me) {
+					var accessToken = FB.getAuthResponse().accessToken;
+					$http.get("/user/login?accessToken=" + accessToken).success(function(accessToken) {
+						$scope.accessToken = accessToken;
+					});
+				});
+			}
+		}
+		$scope.facebook = function() {
+			FB.getLoginStatus(function(response) {
+				if (response.status === 'connected') {
+					facebook(response);
+				} else {
+					FB.login(facebook);
+				}
+			});			
+		};
+	}]);
+}());
+
+formbuilder.factory('socket', function($rootScope) {
+	var socket = io.connect();
+	return {
+		on: function(eventName, callback) {
+			socket.on(eventName, function() {
+				var args = arguments;
+				$rootScope.$apply(function() {
+					callback.apply(socket, args);
+				});
+			});
+		},
+		emit: function(eventName, data, callback) {
+			socket.emit(eventName, data, function() {
+				var args = arguments;
+				$rootScope.$apply(function() {
+					if (callback) {
+						callback.apply(socket, args);
+					}
+				});
+			})
+		}
+	};
+});

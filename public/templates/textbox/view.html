@@ -1,4 +1,4 @@
-<div ng-controller="textbox" ng-init="init(component)">
-	<input ng-if="!component.properties.Multilined.value" class="form-control" type="text" ng-model="component.value" placeholder="{{component.properties.Placeholder.value}}"/>
-	<textarea ng-if="component.properties.Multilined.value" class="form-control" type="text" ng-model="component.value" placeholder="{{component.properties.Placeholder.value}}"></textarea>
+<div ng-controller="textbox" ng-init="init(component)" class="fullscreen">
+	<input ng-if="!component.properties.Multilined.value" class="form-control fullscreen" type="text" ng-model="component.value" placeholder="{{component.properties.Placeholder.value}}"/>
+	<textarea ng-if="component.properties.Multilined.value" class="form-control fullscreen" type="text" ng-model="component.value" placeholder="{{component.properties.Placeholder.value}}"></textarea>
 </div>

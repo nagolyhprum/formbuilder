@@ -4,7 +4,7 @@
 			style="position:absolute;left:{{component.properties.X.value}}px;top:{{component.properties.Y.value}}px;width:{{component.properties.Width.value}}px;height:{{component.properties.Height.value}}px;" 
 			ng-controller="flexible"  
 			ng-init="init(component)">
-			<div ng-include="'templates/' + component.component + '/view.html'"></div>
+			<div ng-include="'templates/' + component.component + '/view.html'" class="fullscreen"></div>
 		</div>		
 		<div 
 			class="highlighted" 

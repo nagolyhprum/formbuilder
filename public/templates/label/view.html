@@ -1,5 +1,6 @@
-<div ng-controller="label" ng-init="init(component)">
+<div ng-controller="label" ng-init="init(component)" class="fullscreen">
 	<div 
+		class="fullscreen"
 		ng-controller="styleable" 
 		ng-init="init(component)" 
 		style="border-width:{{component.properties['Border Width'].value}}px;border-style:{{component.properties['Border Style'].value}};border-color:{{component.properties['Border Color'].value}};color:{{component.properties['Foreground'].value}};background:{{component.properties['Background'].value}};">
