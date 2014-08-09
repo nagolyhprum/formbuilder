@@ -211,13 +211,23 @@ formbuilder.factory('socket', function($rootScope) {
 });
 
 formbuilder.controller("file", ["$scope", "$http", "$cookies", function($scope, $http, $cookies) {
+	$scope.form = {};
+	$http.post("/project/version", {
+		accessToken : $cookies.accessToken
+	}).success(function(projects) {
+		if(!projects.error) {
+			$scope.projects = projects.data;
+		}
+	});
 	$scope.save = function() {
 		$http.post("/project/version", {
 			accessToken : $cookies.accessToken,
-			data : {
-			}
-		}).success(function(data) {
-			if(!data.error) {
+			data : {},
+			name : $scope.form.name,
+			description : $scope.form.description
+		}).success(function(project) {
+			if(!project.error) {
+				$scope.projects.push(project.data);
 			}
 		});
 	};

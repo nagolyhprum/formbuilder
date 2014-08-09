@@ -1,46 +1,75 @@
-<div class="navbar navbar-default navbar-fixed-top">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Collabreate</a>
-		</div>
-		<div class="collapse navbar-collapse" id="collapse" ng-controller="file">
-			<ul class="nav navbar-nav">
-				<li><a href="#">New</a></li>
-				<li><a href="#" ng-click="save()">Save</a></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
-					<ul class="dropdown-menu" >
-						<li><a href="#">File 1</a></li>
-					</ul>
-				</li>
-			</ul>
-			<div ng-controller="login">
-				<ul ng-if="!accessToken" class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#" ng-click="facebook()">Facebook</a></li>
+<div ng-controller="file">
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Collabreate</a>
+			</div>
+			<div class="collapse navbar-collapse" id="collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="#">New</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#save_project">Save</a></li>
+					<li class="dropdown" ng-if="projects.length">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Open <span class="caret"></span></a>
+						<ul class="dropdown-menu" >
+							<li ng-repeat="project in projects"><a href="#" title="{{project.description}}">{{project.name}}</a></li>
 						</ul>
 					</li>
 				</ul>
-				<ul ng-if="accessToken" class="nav navbar-nav navbar-right">
-					<li><a ng-click="logout()" href="#">Logout</a></li>
-				</ul>
+				<div ng-controller="login">
+					<ul ng-if="!accessToken" class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#" ng-click="facebook()">Facebook</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul ng-if="accessToken" class="nav navbar-nav navbar-right">
+						<li><a ng-click="logout()" href="#">Logout</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div ng-controller="editor" class="container-fluid">
-	<div class="col-xs-6" ng-click="unhighlight()">
-		<div formbuilder></div>				
+	
+	<div class="modal fade" id="save_project">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Save Project</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input ng-model="form.name" class="form-control"  placeholder="Project Name"/>
+					</div>
+					<div class="form-group">
+						<textarea ng-model="form.description" class="form-control" placeholder="Project Description"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="save()">Save changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
 	</div>
-	<div class="col-xs-6">
-		<div toolbar></div>
+	<!-- /.modal -->	
+		
+	<div ng-controller="editor" class="container-fluid">
+		<div class="col-xs-6" ng-click="unhighlight()">
+			<div formbuilder></div>				
+		</div>
+		<div class="col-xs-6">
+			<div toolbar></div>
+		</div>
 	</div>
 </div>

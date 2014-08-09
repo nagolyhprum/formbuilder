@@ -34,7 +34,7 @@ function authenticate(accessToken, callback) {
 				},
 				accessToken : accessToken
 			}, [], {
-				expire : new Date().getTime() + (1000 * 60 * 60 * 1)
+				$set : { expire : new Date(new Date().getTime() + (1000 * 60 * 60 * 1)) }
 			}, {}, function(error, user) {
 				if(error || !user) {
 					callback(error || "Invalid access token.");	
@@ -54,7 +54,8 @@ app.post("/user/login", function(req, res) {
 			var accessToken = Guid.raw();
 			var expire = new Date(new Date().getTime() + (1000 * 60 * 60 * 1));
 			collection("users", function(error, users) {
-				users.findAndModify({facebook:body.id}, [], {accessToken:accessToken,expire:expire}, {}, function(error, user) {
+				body = JSON.parse(body);
+				users.findAndModify({$set:{facebook:body.id}}, [], {accessToken:accessToken,expire:expire}, {}, function(error, user) {
 					if(!user) {
 						users.insert({
 							accessToken : accessToken,
@@ -80,6 +81,8 @@ app.post("/user/login", function(req, res) {
 app.post("/project/version", function(req, res) {
 	var accessToken = req.body.accessToken,
 		data = req.body.data,
+		name = req.body.name,
+		description = req.body.description,
 		projectID = req.body.projectID;
 	authenticate(accessToken, function(error, user, users) {
 		if(!error) {
@@ -90,7 +93,7 @@ app.post("/project/version", function(req, res) {
 				} else {
 					if(data && projectID) {
 						//save(data,pid)
-						projects.findAndModify({_id:projectID}, [], {versions:{$push: data}}, {}, function(error, project) {
+						projects.findAndModify({_id:projectID}, [], {$set:{versions:{$push: data}}}, {}, function(error, project) {
 							res.send({data : project.versions.length});
 						});
 					} else if(projectID) {
@@ -116,6 +119,8 @@ app.post("/project/version", function(req, res) {
 					} else if(data) {
 						//create(data, project, accessToken)
 						projects.insert({
+							name : name,
+							description : description,
 							versions : [data],
 							inserted : new Date(),
 							permission: [userid]
@@ -128,11 +133,10 @@ app.post("/project/version", function(req, res) {
 						});
 					} else {		
 						//load(accessToken)
-						projects.find({_id:projectID}).toArray(function(errror,projects){
+						projects.find({permission:userid}).toArray(function(errror, projects){
 							if(error){
 								res.send({error:error});
-							}
-							else{
+							} else{
 								res.send({data:projects});
 							}
 						})
