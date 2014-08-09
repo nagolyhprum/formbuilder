@@ -1,4 +1,7 @@
 var formbuilder = angular.module("formbuilder", []).run(["$rootScope", function($rootScope) {
+	$rootScope.preventDefault = function($event) {
+		return preventDefault($event);
+	};
 	$rootScope.lists = {
 		colors : [
 			"White",
@@ -45,17 +48,16 @@ formbuilder.directive("textbox", function() {
 	};
 });
 
+function preventDefault(event) {
+	event.stopPropagation();
+	//event.preventDefault();
+	event.cancelBubbling = true;
+	return false;
+}
+
 formbuilder.directive("ngDrag", function() {
 	return function($scope, $element, $attributes) {
 		var down = false, previous = {};	
-	
-		function preventDefault(event) {
-			event.stopPropagation();
-			event.preventDefault();
-			event.cancelBubbling = true;
-			return false;
-		}
-		
 		$element.on("mousedown", function(event) {
 			down = true;
 			previous = {
@@ -153,10 +155,11 @@ Array.prototype.contains = function(needle) {
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, "script", "facebook-jssdk"));	
 	
-	formbuilder.controller("login", ["$scope", "$http", function($scope, $http) {
+	formbuilder.controller("login", ["$scope", "$http", "$cookie", function($scope, $http, $cookies) {
 		$scope.accessToken = false;
 		$scope.logout = function() {
 			$scope.accessToken = false;
+			$cookies.accessToken = "";
 		};
 		function facebook(response) {
 			console.log(response.status);
@@ -165,7 +168,7 @@ Array.prototype.contains = function(needle) {
 					var accessToken = FB.getAuthResponse().accessToken;
 					$http.post("/user/login",{accessToken:accessToken}).success(function(accessToken) {
 						if(!accessToken.error) {
-							$scope.accessToken = accessToken.data;
+							$cookies.accessToken = $scope.accessToken = accessToken.data;
 						}
 					});
 				});
@@ -206,3 +209,16 @@ formbuilder.factory('socket', function($rootScope) {
 		}
 	};
 });
+
+formbuilder.controller("file", ["$scope", "$http", "$cookies", function($scope, $http, $cookies) {
+	$scope.create = function() {
+		$http.post("/project/version", {
+			accessToken : $cookies.accessToken,
+			data : {
+			}
+		}).success(function(data) {
+			if(!data.error) {
+			}
+		});
+	};
+}]);
