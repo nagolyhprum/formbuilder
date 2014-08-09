@@ -161,11 +161,13 @@ app.post("/project/permission", function(req, res) {
 				if(error) {
 					res.send({error:error});
 				} else {
-					if(projectID && user && path) {
-						//save/create(projectID, accessToken, user, level)
-					} else if(projectID) {
-						//load(accessToken, projectID)
-					} else {
+					if(projectID && user && path){
+						//DO SOCKET HERE
+						projects.findAndModify({_id:projectID, permission:{$contains: userid}}, [], {permissions{$push: userid, level }}, {}, function(error, project) {
+							res.send({data : level});
+						});
+					}
+					else {
 						res.send({error:"Invalid action."});
 					}
 				}
