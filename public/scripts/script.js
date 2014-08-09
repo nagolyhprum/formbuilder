@@ -163,7 +163,7 @@ Array.prototype.contains = function(needle) {
 			if(response.status == "connected") {
 				FB.api("/me", function(me) {
 					var accessToken = FB.getAuthResponse().accessToken;
-					$http.get("/user/login?accessToken=" + accessToken).success(function(accessToken) {
+					$http.post("/user/login",{accessToken:accessToken}).success(function(accessToken) {
 						$scope.accessToken = accessToken;
 					});
 				});
