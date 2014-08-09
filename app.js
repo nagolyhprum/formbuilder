@@ -67,7 +67,11 @@ app.post("/user/login", function(req, res) {
 							if(error) {
 								res.send({error : error});
 							} else {
-								res.send({data : accessToken});
+								res.send({data : {
+									accessToken : accessToken,
+									fullname : fullname,
+									body.id : body.id
+								});
 							}
 						});
 					} else {
