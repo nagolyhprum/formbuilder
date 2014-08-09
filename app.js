@@ -60,6 +60,7 @@ app.post("/user/login", function(req, res) {
 						users.insert({
 							accessToken : accessToken,
 							expire : expire,
+							fullname : body.full_name,
 							facebook : body.id,
 							inserted : new Date()
 						}, function(error){
